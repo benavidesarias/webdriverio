@@ -16,9 +16,7 @@ export default class Page{
         const platformName = browser.capabilities.platformName;
         const isMac = (
             // check capabilities first
-            platformName && platformName.match(/mac(\s)*os/i) ||
-            // if not set, expect we run locally
-            os.type().match(/darwin/i)
+            platformName && platformName.match(/mac(\s)*os/i)
         )
         const ctlKey =  isMac ? Key.Command : Key.Control
 
