@@ -1,3 +1,5 @@
+import { Key } from 'webdriverio';
+
 export default class Page{
 
     async open(path){
@@ -11,10 +13,22 @@ export default class Page{
 
     async controlAndClick(element){
 
+        const platformName = browser.capabilities.platformName;
+        const isMac = (
+            // check capabilities first
+            platformName && platformName.match(/mac(\s)*os/i) ||
+            // if not set, expect we run locally
+            os.type().match(/darwin/i)
+        )
+        const ctlKey =  isMac ? Key.Command : Key.Control
+
+        console.log('KEY:');
+        console.log(ctlKey);
+
         await browser.performActions([{
             type: 'key',
             id: 'keyboard',
-            actions: [{ type: 'keyDown', value: '' }]
+            actions: [{ type: 'keyDown', value: ctlKey}]
         }]);
 
         await element.click();
@@ -22,7 +36,7 @@ export default class Page{
         await browser.performActions([{
             type: 'key',
             id: 'keyboard',
-            actions: [{ type: 'keyUp', value: '' }]
+            actions: [{ type: 'keyUp', value: ctlKey}]
         }]);
     }
    
